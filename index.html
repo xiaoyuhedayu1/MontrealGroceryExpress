@@ -12,6 +12,7 @@
             padding: 0;
             background-color: #f4f4f9;
         }
+
         header {
             background-color: #4CAF50;
             color: white;
@@ -24,17 +25,23 @@
         #logo {
             position: absolute;
             top: 15px;
-            left: 15px; /* Adjust the position to the left */
-            width: auto; /* Set logo width */
+            left: 15px;
+            width: auto;
             height: 80px;
             z-index: 999;
+            transition: height 0.3s ease;
+        }
+
+        /* Welcome message */
+        #welcomeMessage {
+            font-size: 24px;
+            margin: 0;
+            padding-top: 80px;
         }
 
         /* Language Dropdown */
         #languageSelector {
-            position: absolute;
-            top: 15px;
-            right: 15px; /* Adjusted for better placement */
+            margin-top: 10px;
             background-color: #fff;
             border: 1px solid #ddd;
             padding: 5px;
@@ -58,17 +65,16 @@
         /* Section for restaurant and grocery stores */
         .section-row {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 20px;
+            gap: 20px; /* Adds space between items */
         }
 
         /* Each store or restaurant item */
         .store-item {
-            width: 100%;
-            max-width: 250px;  /* Restricting max width for better layout */
-            height: auto;
+            width: 200px;
+            height: 250px;
+            margin-bottom: 20px;
             background-color: #ffffff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
@@ -76,6 +82,9 @@
             text-align: center;
             cursor: pointer;
             transition: transform 0.3s;
+            flex-grow: 1;  /* Allow items to grow */
+            flex-shrink: 1; /* Allow items to shrink */
+            max-width: 250px; /* Prevents too much shrinking */
         }
 
         .store-item:hover {
@@ -121,6 +130,7 @@
             padding: 10px;
             cursor: pointer;
             z-index: 1000;
+            transition: font-size 0.3s ease, padding 0.3s ease;
         }
 
         #cartCount {
@@ -139,41 +149,91 @@
         }
 
         /* Media Queries for Responsiveness */
+
+        /* For tablets and smaller devices */
         @media (max-width: 768px) {
-            /* Adjusting layout for smaller screens */
+            /* Adjust the logo size */
             #logo {
                 height: 60px;
             }
 
-            header h1 {
+            /* Adjust header padding */
+            header {
+                padding: 10px;
+            }
+
+            /* Stack the store items in a single column */
+            .section-row {
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            .store-item {
+                width: 90%;
+                height: auto;
+            }
+
+            /* Adjust section headings font size */
+            .section-container h2 {
                 font-size: 24px;
             }
 
-            /* Reducing the width of store items on small screens */
-            .store-item {
-                width: 100%;
-                max-width: 300px;
+            /* Make the cart icon smaller and more centered */
+            #cartIcon {
+                top: 10px;
+                right: 10px;
+                font-size: 25px;
+                padding: 8px;
             }
 
-            /* Stacking sections vertically */
-            .section-row {
-                justify-content: center;
-            }
-
-            #languageSelector {
-                right: 15px;
-                top: 70px; /* Moving down for better visibility */
+            /* Adjust the cart count */
+            #cartCount {
+                font-size: 12px;
+                width: 18px;
+                height: 18px;
             }
         }
 
+        /* For mobile devices */
         @media (max-width: 480px) {
-            /* Additional adjustments for very small screens */
-            header h1 {
-                font-size: 20px;
+            /* Adjust the logo size even more */
+            #logo {
+                height: 50px;
+            }
+
+            /* Adjust header padding */
+            header {
+                padding: 5px;
+            }
+
+            /* Stack the store items in a single column */
+            .section-row {
+                flex-direction: column;
+                align-items: center;
             }
 
             .store-item {
-                max-width: 90%; /* More flexible width on very small screens */
+                width: 100%;
+                height: auto;
+            }
+
+            /* Adjust section headings font size */
+            .section-container h2 {
+                font-size: 20px;
+            }
+
+            /* Adjust the cart icon and cart count */
+            #cartIcon {
+                top: 10px;
+                right: 10px;
+                font-size: 20px;
+                padding: 6px;
+            }
+
+            #cartCount {
+                font-size: 12px;
+                width: 18px;
+                height: 18px;
             }
         }
     </style>
@@ -182,6 +242,7 @@
     <header>
         <!-- Logo -->
         <img id="logo" src="logo.png" alt="Logo">
+        <!-- Welcome message -->
         <h1 id="welcomeMessage">Welcome to Our Store</h1>
         <!-- Language Dropdown -->
         <select id="languageSelector" onchange="changeLanguage()">
@@ -199,6 +260,7 @@
             <div class="store-item">
                 <img src="kimphat_logo.png" alt="Kimphat">
                 <h3>Kimphat</h3>
+                <!-- "Shop Now" button directs to kimphat.html -->
                 <a href="kimphat.html" class="shop-now-button">Shop Now</a>
             </div>
 
@@ -206,6 +268,7 @@
             <div class="store-item">
                 <img src="ct_logo.png" alt="C&T">
                 <h3>C&T</h3>
+                <!-- "Shop Now" button directs to ct.html -->
                 <a href="ct.html" class="shop-now-button">Shop Now</a>
             </div>
 
@@ -213,6 +276,7 @@
             <div class="store-item">
                 <img src="tt_logo.png" alt="T&T">
                 <h3>T&T</h3>
+                <!-- "Shop Now" button directs to tt.html -->
                 <a href="tt.html" class="shop-now-button">Shop Now</a>
             </div>
         </div>
@@ -291,14 +355,13 @@
             document.getElementById("cartCount").textContent = cart.length;
         }
 
-        // Open the cart when clicking the cart icon
         function openCart() {
-            // Open the cart page or just alert
-            window.location.href = "cart.html";  // Redirect to a cart page
+            alert("Cart is opening");
         }
 
-        // Update cart count when page loads
-        window.onload = updateCartCount;
+        window.onload = function() {
+            updateCartCount();
+        }
     </script>
 </body>
 </html>
