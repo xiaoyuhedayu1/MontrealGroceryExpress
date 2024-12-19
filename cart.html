@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+        #logo {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 200px;
+            height: auto;
+            cursor: pointer;
+        }
+        #languageDropdown {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .cart-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .cart-table th, .cart-table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        .cart-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .remove-btn {
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .remove-btn:hover {
+            background-color: #ff4d4d;
+        }
+
+        .clear-cart-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+        }
+
+        .clear-cart-btn:hover {
+            background-color: #ff6666;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .contact-form input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .contact-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="frontpage.html">
+            <img src="logo.png" id="logo" alt="Kimphat Store">
+        </a>
+        <select id="languageDropdown" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="fr">French</option>
+            <option value="zh">Chinese</option>
+        </select>
+        <h1 id="cartTitle">Cart</h1>
+    </header>
+
+    <div class="cart-container">
+        <h2 id="yourCartTitle">Your Cart</h2>
+        <table class="cart-table" id="cartTable">
+            <thead>
+                <tr>
+                    <th id="itemNameTitle">Item Name</th>
+                    <th id="storeTitle">Store</th>
+                    <th id="quantityTitle">Quantity</th>
+                    <th id="removeTitle">Remove</th>
+                </tr>
+            </thead>
+            <tbody id="cartItems"></tbody>
+        </table>
+
+        <!-- Clear Cart Button -->
+        <button class="clear-cart-btn" onclick="confirmClearCart()">Clear Cart</button>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form">
+        <form action="https://api.staticforms.xyz/submit" method="post" id="contactForm" onsubmit="return confirmSubmit()">
+            <input type="hidden" name="accessKey" value="d276f4f2-11bb-4f04-a9f7-3718a5652711"> <!-- Required -->
+            <input type="text" name="name" placeholder="Your Name"> <!-- Optional -->
+            <input type="text" name="email" placeholder="Your Email"> <!-- Optional -->
+            <input type="text" name="phone" placeholder="Your Phone"> <!-- Optional -->
+            <input type="text" name="address" placeholder="Your Home Address"> <!-- New Address Field -->
+            <textarea name="message" id="message" placeholder="Your message (automatically filled with cart details)" style="display: none;"></textarea> <!-- Optional -->
+            <input type="hidden" name="replyTo" value="@"> <!-- Optional -->
+            <input type="hidden" name="redirectTo" value="https://example.com/contact/success"> <!-- Optional -->
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+
+    <script>
+        // Language text mapping
+        const languageTexts = {
+            en: {
+                title: "Your Cart",
+                cartTitle: "Shopping Cart",
+                yourCartTitle: "Your Shopping Cart",
+                itemNameTitle: "Item Name",
+                storeTitle: "Store",
+                quantityTitle: "Quantity",
+                removeTitle: "Remove",
+                orderSubmitted: "Order Submitted!",
+                fillAllFields: "Please fill out all customer information fields!"
+            },
+            fr: {
+                title: "Votre Panier",
+                cartTitle: "Panier d'achat",
+                yourCartTitle: "Votre Panier",
+                itemNameTitle: "Nom de l'article",
+                storeTitle: "Magasin",
+                quantityTitle: "Quantité",
+                removeTitle: "Supprimer",
+                orderSubmitted: "Commande soumise!",
+                fillAllFields: "Veuillez remplir tous les champs d'informations client!"
+            },
+            zh: {
+                title: "购物车",
+                cartTitle: "购物车",
+                yourCartTitle: "您的购物车",
+                itemNameTitle: "商品名称",
+                storeTitle: "商店",
+                quantityTitle: "数量",
+                removeTitle: "删除",
+                orderSubmitted: "订单已提交！",
+                fillAllFields: "请填写所有客户信息字段！"
+            }
+        };
+
+        // Retrieve the cart from localStorage
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Function to update the cart display
+        function updateCart() {
+            const cartItemsList = document.getElementById('cartItems');
+            cartItemsList.innerHTML = ''; // Clear current cart items
+
+            if (cart.length === 0) {
+                const emptyMessage = document.createElement('tr');
+                emptyMessage.innerHTML = '<td colspan="4" style="text-align: center; padding: 20px;">Your cart is empty</td>';
+                cartItemsList.appendChild(emptyMessage);
+            } else {
+                // Sort the cart items by store name
+                cart.sort((a, b) => a.storeName.localeCompare(b.storeName));
+
+                cart.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = ` 
+                        <td>${item.name}</td>
+                        <td>${item.storeName}</td>
+                        <td><input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${index}, this.value)" /></td>
+                        <td><button class="remove-btn" onclick="removeFromCart(${index})">Remove</button></td>
+                    `;
+                    cartItemsList.appendChild(row);
+                });
+            }
+        }
+
+        // Function to update quantity of an item in the cart
+        function updateQuantity(index, newQuantity) {
+            cart[index].quantity = parseInt(newQuantity);
+            localStorage.setItem('cart', JSON.stringify(cart)); // Update localStorage
+        }
+
+        // Function to remove an item from the cart
+        function removeFromCart(index) {
+            cart.splice(index, 1); // Remove item from cart
+            localStorage.setItem('cart', JSON.stringify(cart)); // Update localStorage
+            updateCart(); // Update the cart display
+        }
+
+        // Function to clear all items from the cart with confirmation
+        function confirmClearCart() {
+            const confirmation = window.confirm("Are you sure you want to clear all items from the cart?");
+            if (confirmation) {
+                clearCart(); // Clear cart if confirmed
+            }
+        }
+
+        // Function to actually clear the cart
+        function clearCart() {
+            cart = []; // Clear the cart array
+            localStorage.setItem('cart', JSON.stringify(cart)); // Clear localStorage
+            updateCart(); // Update the UI to reflect the empty cart
+        }
+
+        // Function to prepare the message with cart items and address for submission
+        function prepareMessage() {
+            const name = document.querySelector('[name="name"]').value;
+            const email = document.querySelector('[name="email"]').value;
+            const address = document.querySelector('[name="address"]').value;
+
+            if (name && email && address) {
+                let messageContent = `Home Address: ${address}\n\n`; // Add the address at the start
+                messageContent += 'Items in cart:\n\n'; // Start the message with cart items
+                cart.forEach(item => {
+                    messageContent += `(${item.name}; ${item.quantity}, ${item.storeName})\n`;
+                });
+
+                document.getElementById('message').value = messageContent; // Insert address and cart items into the message
+            } else {
+                alert(languageTexts[getSelectedLanguage()].fillAllFields);
+            }
+        }
+
+        // Function to get the selected language from the dropdown
+        function getSelectedLanguage() {
+            return document.getElementById('languageDropdown').value;
+        }
+
+        // Confirm before submitting the contact form
+        function confirmSubmit() {
+            const confirmation = window.confirm("Are you sure you want to submit the form?");
+            if (confirmation) {
+                return true; // Proceed with form submission
+            } else {
+                return false; // Prevent form submission
+            }
+        }
+
+        // Update the cart display initially
+        updateCart();
+    </script>
+</body>
+</html>

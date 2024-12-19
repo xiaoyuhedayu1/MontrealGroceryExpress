@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Montreal Grocery Express</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Logo in the header */
+        #logo {
+            position: absolute;
+            top: 15px;
+            left: 15px; /* Adjust the position to the left */
+            width: auto; /* Set logo width */
+            height: 80px;
+            z-index: 999;
+        }
+
+        /* Language Dropdown */
+        #languageSelector {
+            position: absolute;
+            top: 15px;
+            right: 100px; /* Adjusted to avoid overlap with cart */
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Main sections */
+        .section-container {
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        .section-container h2 {
+            font-size: 28px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Section for restaurant and grocery stores */
+        .section-row {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        /* Each store or restaurant item */
+        .store-item {
+            width: 200px;
+            height: 250px;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .store-item:hover {
+            transform: scale(1.05);
+        }
+
+        .store-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .store-item h3 {
+            margin-top: 10px;
+            font-size: 20px;
+            color: #4CAF50;
+        }
+
+        .store-item a {
+            display: block;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .store-item a:hover {
+            background-color: #45a049;
+        }
+
+        /* Cart Icon Styling for Fixed Position */
+        #cartIcon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        #cartCount {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 14px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Logo -->
+        <img id="logo" src="logo.png" alt="Logo">
+        <h1 id="welcomeMessage">Welcome to Our Store</h1>
+        <!-- Language Dropdown -->
+        <select id="languageSelector" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="zh">中文</option>
+        </select>
+    </header>
+
+    <!-- Grocery Store Section -->
+    <div class="section-container">
+        <h2 id="grocerySectionTitle">Grocery Stores</h2>
+        <div class="section-row">
+            <!-- Kimphat Store -->
+            <div class="store-item">
+                <img src="kimphat_logo.png" alt="Kimphat">
+                <h3>Kimphat</h3>
+                <!-- "Shop Now" button directs to kimphat.html -->
+                <a href="kimphat.html" class="shop-now-button">Shop Now</a>
+            </div>
+
+            <!-- C&T Store -->
+            <div class="store-item">
+                <img src="ct_logo.png" alt="C&T">
+                <h3>C&T</h3>
+                <!-- "Shop Now" button directs to ct.html -->
+                <a href="ct.html" class="shop-now-button">Shop Now</a>
+            </div>
+
+            <!-- T&T Store -->
+            <div class="store-item">
+                <img src="tt_logo.png" alt="T&T">
+                <h3>T&T</h3>
+                <!-- "Shop Now" button directs to tt.html -->
+                <a href="tt.html" class="shop-now-button">Shop Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Future Restaurant Section -->
+    <div class="section-container">
+        <h2 id="restaurantSectionTitle">Future Restaurants</h2>
+        <div class="section-row">
+            <!-- Restaurant 1 -->
+            <div class="store-item" onclick="alert('Restaurant 1 - Upcoming')">
+                <img src="restaurant1.png" alt="Restaurant 1">
+                <h3>Restaurant 1</h3>
+                <a href="#" class="shop-now-button">Shop Now</a>
+            </div>
+            <!-- Restaurant 2 -->
+            <div class="store-item" onclick="alert('Restaurant 2 - Upcoming')">
+                <img src="restaurant2.png" alt="Restaurant 2">
+                <h3>Restaurant 2</h3>
+                <a href="#" class="shop-now-button">Shop Now</a>
+            </div>
+            <!-- Restaurant 3 -->
+            <div class="store-item" onclick="alert('Restaurant 3 - Upcoming')">
+                <img src="restaurant3.png" alt="Restaurant 3">
+                <h3>Restaurant 3</h3>
+                <a href="#" class="shop-now-button">Shop Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Icon -->
+    <div id="cartIcon" onclick="openCart()">
+        <span>🛒</span>
+        <span id="cartCount">0</span>
+    </div>
+
+    <script>
+        // Language change functionality
+        const translations = {
+            en: {
+                welcomeMessage: "Welcome to Our Store",
+                grocerySectionTitle: "Grocery Stores",
+                restaurantSectionTitle: "Future Restaurants",
+                shopNow: "Shop Now"
+            },
+            fr: {
+                welcomeMessage: "Bienvenue dans notre magasin",
+                grocerySectionTitle: "Magasins d'alimentation",
+                restaurantSectionTitle: "Restaurants à venir",
+                shopNow: "Acheter maintenant"
+            },
+            zh: {
+                welcomeMessage: "欢迎来到我们的商店",
+                grocerySectionTitle: "杂货店",
+                restaurantSectionTitle: "未来餐厅",
+                shopNow: "立即购买"
+            }
+        };
+
+        function changeLanguage() {
+            const language = document.getElementById("languageSelector").value;
+            document.getElementById("welcomeMessage").textContent = translations[language].welcomeMessage;
+            document.getElementById("grocerySectionTitle").textContent = translations[language].grocerySectionTitle;
+            document.getElementById("restaurantSectionTitle").textContent = translations[language].restaurantSectionTitle;
+            
+            // Update all Shop Now buttons
+            const shopNowButtons = document.querySelectorAll(".shop-now-button");
+            shopNowButtons.forEach(button => {
+                button.textContent = translations[language].shopNow;
+            });
+        }
+
+        // Cart functionality
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            document.getElementById("cartCount").textContent = cart.length;
+        }
+
+        // Open the cart when clicking the cart icon
+        function openCart() {
+            // Open the cart page or just alert
+            window.location.href = "cart.html";  // Redirect to a cart page
+        }
+
+        // Update cart count when page loads
+        window.onload = updateCartCount;
+    </script>
+</body>
+</html>

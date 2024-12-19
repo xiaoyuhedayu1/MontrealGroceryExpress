@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C&T</title>
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 13px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Company Logo */
+        #companyLogo {
+            position: absolute;
+            top: 16px; /* Adjusted to match the increased padding */
+            left: 15px;
+            width: 200px;
+            height: auto;
+            z-index: 999;
+        }
+
+        /* Language Selector */
+        #languageSelector {
+            position: absolute;
+            top: 25px; /* Adjusted top positioning */
+            right: 100px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px; /* Increased font size for better readability */
+        }
+
+        /* Form for Product Input */
+        .product-form {
+            margin: 20px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+
+        .form-input {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-input input {
+            padding: 10px;
+            width: 70%;
+            margin-right: 10px;
+        }
+
+        .form-input button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .form-input button:hover {
+            background-color: #45a049;
+        }
+
+        /* Cart Icon and Mini Cart */
+        #cartIcon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        #cartCount {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 14px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+        }
+
+        /* Permanent Mini Cart */
+        #miniCart {
+            position: fixed;
+            top: 150px;
+            right: 20px;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            width: 250px;
+            z-index: 1000;
+        }
+
+        #miniCart ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #miniCart li {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .mini-cart-quantity {
+            display: flex;
+            align-items: center;
+        }
+
+        .mini-cart-btn {
+            padding: 5px;
+            cursor: pointer;
+            margin: 0 5px;
+            background-color: #ddd;
+            border-radius: 5px;
+        }
+
+        .mini-cart-btn:hover {
+            background-color: #ccc;
+        }
+
+        .mini-cart-remove {
+            background-color: red;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .total-price {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Flyer Circle with Icon */
+        #flyerCircle {
+            position: fixed;
+            top: 20%;
+            left: 70px;
+            width: 120px;
+            height: 120px;
+            background-color: #f39c12; /* Orange color */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 32px; /* Larger font size for the icon */
+            z-index: 999;
+        }
+
+        #flyerCircle a {
+            text-decoration: none;
+            color: white;
+        }
+
+        /* Additional styling for the flyer icon */
+        #flyerCircle i {
+            font-size: 48px; /* Flyer icon size */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- CT Store Logo Image -->
+        <img src="ct_logo.png" alt="CT Store Logo" style="max-height: 80px;">
+        
+        <!-- Company Logo on Top Left -->
+        <a href="frontpage.html" id="companyLogo">
+            <img src="logo.png" alt="CT Store Logo" style="max-height: 80px;">
+        </a>
+
+        <!-- Language Selector -->
+        <select id="languageSelector" onchange="changeLanguage(event)">
+            <option value="en">English</option>
+            <option value="fr">French</option>
+            <option value="zh">Chinese</option>
+        </select>
+    </header>
+
+    <!-- Flyer Circle (on the left) with Flyer Icon -->
+    <div id="flyerCircle">
+        <a href="https://www.marchect.ca/" target="_blank">
+            <i class="fas fa-file-alt"></i> <!-- Flyer icon from Font Awesome -->
+        </a>
+    </div>
+
+    <!-- Form to Add Product -->
+    <div class="product-form">
+        <h3 id="formTitle">Add Product to Cart</h3>
+        <div class="form-input">
+            <input type="text" id="productName" placeholder="Product Name">
+            <input type="number" id="productQuantity" placeholder="Quantity" min="1">
+            <button onclick="addToCart()" id="addToCartBtn">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Cart Icon (Navigates to Cart Page) -->
+    <div id="cartIcon">
+        <a href="cart.html" style="color: white; text-decoration: none;">🛒</a>
+        <span id="cartCount">0</span>
+    </div>
+
+    <!-- Permanent Mini Cart -->
+    <div id="miniCart">
+        <h3 id="miniCartTitle">Mini Cart</h3>
+        <ul id="miniCartItems"></ul>
+    </div>
+
+    <script>
+        // Translation data for each language
+        const translations = {
+            en: {
+                formTitle: "Add Product to Cart",
+                addToCartBtn: "Add to Cart",
+                miniCartTitle: "Mini Cart",
+                productNamePlaceholder: "Product Name",
+                productQuantityPlaceholder: "Quantity",
+            },
+            fr: {
+                formTitle: "Ajouter un produit au panier",
+                addToCartBtn: "Ajouter au panier",
+                miniCartTitle: "Mini Panier",
+                productNamePlaceholder: "Nom du produit",
+                productQuantityPlaceholder: "Quantité",
+            },
+            zh: {
+                formTitle: "将产品添加到购物车",
+                addToCartBtn: "加入购物车",
+                miniCartTitle: "迷你购物车",
+                productNamePlaceholder: "产品名称",
+                productQuantityPlaceholder: "数量",
+            }
+        };
+
+        // Set default language to English
+        let currentLanguage = "en";
+
+        // Function to change language
+        function changeLanguage(event) {
+            const language = event.target.value;
+            currentLanguage = language;
+            updateText();
+        }
+
+        // Update page text based on selected language
+        function updateText() {
+            document.getElementById("formTitle").textContent = translations[currentLanguage].formTitle;
+            document.getElementById("addToCartBtn").textContent = translations[currentLanguage].addToCartBtn;
+            document.getElementById("miniCartTitle").textContent = translations[currentLanguage].miniCartTitle;
+            document.getElementById("productName").placeholder = translations[currentLanguage].productNamePlaceholder;
+            document.getElementById("productQuantity").placeholder = translations[currentLanguage].productQuantityPlaceholder;
+        }
+
+        // Initialize cart
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Store name
+        const storeName = "C&T";
+
+        // Update the cart display
+        function updateMiniCart() {
+            const miniCartItems = document.getElementById('miniCartItems');
+            const cartCount = document.getElementById('cartCount');
+            
+            miniCartItems.innerHTML = ''; // Clear the current mini cart
+            cartCount.textContent = cart.length;  // Update the cart count
+            
+            cart.forEach((item, index) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = ` 
+                    <span>${item.name} (${item.storeName}) - Quantity: ${item.quantity}</span> 
+                    <button class="mini-cart-remove" onclick="removeFromCart(${index})">Remove</button>
+                `;
+                miniCartItems.appendChild(listItem);
+            });
+        }
+
+        // Add product to the cart
+        function addToCart() {
+            const productName = document.getElementById('productName').value;
+            const productQuantity = parseInt(document.getElementById('productQuantity').value);
+            
+            if (!productName || isNaN(productQuantity) || productQuantity <= 0) {
+                alert("Please enter a valid product name and quantity.");
+                return;
+            }
+
+            // Create the cart item with the store name included
+            const newItem = { 
+                name: productName, 
+                quantity: productQuantity,
+                storeName: storeName // Adding the store name
+            };
+
+            // Check if the product already exists in the cart
+            const existingItem = cart.find(item => item.name === productName && item.storeName === storeName);
+            if (existingItem) {
+                existingItem.quantity += productQuantity; // Update quantity if product exists
+            } else {
+                cart.push(newItem); // Add new product
+            }
+
+            // Save to local storage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Update the mini cart view
+            updateMiniCart();
+
+            // Reset the input fields
+            document.getElementById('productName').value = '';
+            document.getElementById('productQuantity').value = '';
+        }
+
+        // Remove product from the cart
+        function removeFromCart(index) {
+            cart.splice(index, 1); // Remove item from cart
+            localStorage.setItem('cart', JSON.stringify(cart)); // Update local storage
+            updateMiniCart(); // Update the mini cart display
+        }
+
+        // Initialize the mini cart on page load
+        updateMiniCart();
+    </script>
+</body>
+</html>
