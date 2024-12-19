@@ -12,7 +12,6 @@
             padding: 0;
             background-color: #f4f4f9;
         }
-
         header {
             background-color: #4CAF50;
             color: white;
@@ -25,28 +24,27 @@
         #logo {
             position: absolute;
             top: 15px;
-            left: 15px;
-            width: auto;
+            left: 15px; /* Adjust the position to the left */
+            width: auto; /* Set logo width */
             height: 80px;
             z-index: 999;
-            transition: height 0.3s ease;
         }
 
-        /* Welcome message */
-        #welcomeMessage {
-            font-size: 24px;
-            margin: 0;
-            padding-top: 80px;
+        /* Language Dropdown Container */
+        #languageSelectorContainer {
+            text-align: center; /* Center the selector */
+            margin-top: 10px;   /* Space between the welcome message and selector */
         }
 
         /* Language Dropdown */
         #languageSelector {
-            margin-top: 10px;
             background-color: #fff;
             border: 1px solid #ddd;
-            padding: 5px;
+            padding: 10px;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+            width: 150px; /* Optional: control width */
         }
 
         /* Main sections */
@@ -67,7 +65,6 @@
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
-            gap: 20px; /* Adds space between items */
         }
 
         /* Each store or restaurant item */
@@ -82,9 +79,6 @@
             text-align: center;
             cursor: pointer;
             transition: transform 0.3s;
-            flex-grow: 1;  /* Allow items to grow */
-            flex-shrink: 1; /* Allow items to shrink */
-            max-width: 250px; /* Prevents too much shrinking */
         }
 
         .store-item:hover {
@@ -130,7 +124,6 @@
             padding: 10px;
             cursor: pointer;
             z-index: 1000;
-            transition: font-size 0.3s ease, padding 0.3s ease;
         }
 
         #cartCount {
@@ -147,109 +140,21 @@
             text-align: center;
             line-height: 20px;
         }
-
-        /* Media Queries for Responsiveness */
-
-        /* For tablets and smaller devices */
-        @media (max-width: 768px) {
-            /* Adjust the logo size */
-            #logo {
-                height: 60px;
-            }
-
-            /* Adjust header padding */
-            header {
-                padding: 10px;
-            }
-
-            /* Stack the store items in a single column */
-            .section-row {
-                justify-content: center;
-                flex-direction: column;
-            }
-
-            .store-item {
-                width: 90%;
-                height: auto;
-            }
-
-            /* Adjust section headings font size */
-            .section-container h2 {
-                font-size: 24px;
-            }
-
-            /* Make the cart icon smaller and more centered */
-            #cartIcon {
-                top: 10px;
-                right: 10px;
-                font-size: 25px;
-                padding: 8px;
-            }
-
-            /* Adjust the cart count */
-            #cartCount {
-                font-size: 12px;
-                width: 18px;
-                height: 18px;
-            }
-        }
-
-        /* For mobile devices */
-        @media (max-width: 480px) {
-            /* Adjust the logo size even more */
-            #logo {
-                height: 50px;
-            }
-
-            /* Adjust header padding */
-            header {
-                padding: 5px;
-            }
-
-            /* Stack the store items in a single column */
-            .section-row {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .store-item {
-                width: 100%;
-                height: auto;
-            }
-
-            /* Adjust section headings font size */
-            .section-container h2 {
-                font-size: 20px;
-            }
-
-            /* Adjust the cart icon and cart count */
-            #cartIcon {
-                top: 10px;
-                right: 10px;
-                font-size: 20px;
-                padding: 6px;
-            }
-
-            #cartCount {
-                font-size: 12px;
-                width: 18px;
-                height: 18px;
-            }
-        }
     </style>
 </head>
 <body>
     <header>
         <!-- Logo -->
         <img id="logo" src="logo.png" alt="Logo">
-        <!-- Welcome message -->
         <h1 id="welcomeMessage">Welcome to Our Store</h1>
-        <!-- Language Dropdown -->
-        <select id="languageSelector" onchange="changeLanguage()">
-            <option value="en">English</option>
-            <option value="fr">Français</option>
-            <option value="zh">中文</option>
-        </select>
+        <!-- Language Dropdown below the welcome message -->
+        <div id="languageSelectorContainer">
+            <select id="languageSelector" onchange="changeLanguage()">
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+                <option value="zh">中文</option>
+            </select>
+        </div>
     </header>
 
     <!-- Grocery Store Section -->
@@ -355,13 +260,14 @@
             document.getElementById("cartCount").textContent = cart.length;
         }
 
+        // Open the cart when clicking the cart icon
         function openCart() {
-            alert("Cart is opening");
+            // Open the cart page or just alert
+            window.location.href = "cart.html";  // Redirect to a cart page
         }
 
-        window.onload = function() {
-            updateCartCount();
-        }
+        // Update cart count when page loads
+        window.onload = updateCartCount;
     </script>
 </body>
 </html>
