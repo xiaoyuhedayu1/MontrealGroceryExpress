@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Montreal Grocery Express</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 40px 40px;
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: center;
+    z-index: 1000;
+}
+
+header img {
+    width: 250px;
+    position: absolute; 
+    top: 10px;
+    left: 50px;
+}
+
+h1 {
+    font-size: 32px;
+    margin: 0;
+    text-align: center;
+}
+
+#languageSwitcher {
+    position: absolute;
+    right: 100px; /* Adjust as needed */
+}
+        #languageSwitcher select {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #languageSwitcher select:hover {
+            background-color: #45a049;
+        }
+        main {
+            width: 100%;
+            max-width: 1200px;
+            padding: 120px 20px 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h2, p {
+            color: #34495e;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 15px;
+        }
+        strong {
+            color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Logo linked to index.html -->
+        <a href="index.html">
+            <img src="logo.png" alt="Montreal Grocery Express Logo">
+        </a>
+        <!-- About Montreal Grocery Express -->
+        <h1 id="aboutTitle">About</h1>
+        <!-- Language Switcher Dropdown -->
+        <div id="languageSwitcher">
+            <select onchange="switchLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+                <option value="zh">中文</option>
+            </select>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h2 id="howItWorksTitle">How It Works</h2>
+            <p id="howItWorksText">Here’s how Montreal Grocery Express works:</p>
+            <ul>
+                <li><strong id="selectItemTitle">Select Your Item:</strong> <span id="selectItemText">Navigate to the store page and write the item you want to order.</span></li>
+                <li><strong id="addToCartTitle">Add to Cart:</strong> <span id="addToCartText">Once you've chosen your items, add them to your cart.</span></li>
+                <li><strong id="accessFlyerTitle">Access the Flyer:</strong> <span id="accessFlyerText">Click on the store logo to view their flyer for more details.</span></li>
+                <li><strong id="reviewOrderTitle">Review Your Order:</strong> <span id="reviewOrderText">Click on your cart to double-check your items.</span></li>
+                <li><strong id="placeOrderTitle">Place Your Order:</strong> <span id="placeOrderText">Click the submit button to finalize your order.</span></li>
+                <li><strong id="returnHomeTitle">Return to Homepage:</strong> <span id="returnHomeText">Click the Montreal Grocery Express logo to go back to the homepage.</span></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 id="deliveryScheduleTitle">Delivery Schedule</h2>
+            <p id="deliveryScheduleText">We deliver your groceries every two weeks, ensuring you have everything you need without the hassle of frequent shopping trips. Our service is designed for convenience and reliability, bringing the grocery store directly to your doorstep on a bi-weekly basis. You can view the delivery date in your cart for easy reference.</p>
+        </section>
+
+        <section>
+            <h2 id="pricingTitle">Pricing</h2>
+            <p id="pricingText">Our service fee is 15% of your total order, ensuring you get the best value while benefiting from our reliable delivery service. This fee covers the convenience of having groceries delivered directly to your door every two weeks.</p>
+        </section>
+
+        <section>
+            <h2 id="whyChooseUsTitle">Why Choose Us?</h2>
+            <ul>
+                <li><strong id="varietyTitle">Variety:</strong> <span id="varietyText">Access a wide selection of stores and products.</span></li>
+                <li><strong id="convenienceTitle">Convenience:</strong> <span id="convenienceText">Reliable delivery to your doorstep every two weeks.</span></li>
+                <li><strong id="customerServiceTitle">Customer Service:</strong> <span id="customerServiceText">Friendly support to assist you with any questions.</span></li>
+                <li><strong id="greatPricesTitle">Great Prices:</strong> <span id="greatPricesText">Competitive rates to ensure you get the best value.</span></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 id="contactUsTitle">Contact Us</h2>
+            <p id="contactUsText">If you have any questions or inquiries, feel free to reach out to us:</p>
+            <p id="email">Email: info@montrealgroceryexpress.ca</p>
+            <p id="wechatTitle">WeChat:</p>
+        </section>
+    </main>
+
+    <script>
+        const translations = {
+            en: {
+                aboutTitle: "About",
+                howItWorksTitle: "How It Works",
+                howItWorksText: "Here’s how Montreal Grocery Express works:",
+                selectItemTitle: "Select Your Item:",
+                selectItemText: "Navigate to the store page and write the item you want to order.",
+                addToCartTitle: "Add to Cart:",
+                addToCartText: "Once you've chosen your items, add them to your cart.",
+                accessFlyerTitle: "Access the Flyer:",
+                accessFlyerText: "Click on the store logo to view their flyer for more details.",
+                reviewOrderTitle: "Review Your Order:",
+                reviewOrderText: "Click on your cart to double-check your items.",
+                placeOrderTitle: "Place Your Order:",
+                placeOrderText: "Click the submit button to finalize your order.",
+                returnHomeTitle: "Return to Homepage:",
+                returnHomeText: "Click the Montreal Grocery Express logo to go back to the homepage.",
+                deliveryScheduleTitle: "Delivery Schedule",
+                deliveryScheduleText: "We deliver your groceries every two weeks, ensuring you have everything you need without the hassle of frequent shopping trips. Our service is designed for convenience and reliability, bringing the grocery store directly to your doorstep on a bi-weekly basis. You can view the delivery date in your cart for easy reference.",
+                pricingTitle: "Pricing",
+                pricingText: "Our service fee is 15% of your total order, ensuring you get the best value while benefiting from our reliable delivery service. This fee covers the convenience of having groceries delivered directly to your door every two weeks.",
+                whyChooseUsTitle: "Why Choose Us?",
+                varietyTitle: "Variety:",
+                varietyText: "Access a wide selection of stores and products.",
+                convenienceTitle: "Convenience:",
+                convenienceText: "Reliable delivery to your doorstep every two weeks.",
+                customerServiceTitle: "Customer Service:",
+                customerServiceText: "Friendly support to assist you with any questions.",
+                greatPricesTitle: "Great Prices:",
+                greatPricesText: "Competitive rates to ensure you get the best value.",
+                contactUsTitle: "Contact Us",
+                contactUsText: "If you have any questions or inquiries, feel free to reach out to us:",
+                email: "Email: info@montrealgroceryexpress.ca",
+                wechatTitle: "WeChat:",
+            },
+            fr: {
+                aboutTitle: "À propos",
+                howItWorksTitle: "Comment ça marche",
+                howItWorksText: "Voici comment Montreal Grocery Express fonctionne :",
+                selectItemTitle: "Sélectionnez votre article :",
+                selectItemText: "Accédez à la page du magasin et écrivez l'article que vous souhaitez commander.",
+                addToCartTitle: "Ajouter au panier :",
+                addToCartText: "Une fois que vous avez choisi vos articles, ajoutez-les à votre panier.",
+                accessFlyerTitle: "Accédez au prospectus :",
+                accessFlyerText: "Cliquez sur le logo du magasin pour voir son prospectus pour plus de détails.",
+                reviewOrderTitle: "Vérifiez votre commande :",
+                reviewOrderText: "Cliquez sur votre panier pour vérifier vos articles.",
+                placeOrderTitle: "Passez votre commande :",
+                placeOrderText: "Cliquez sur le bouton de soumission pour finaliser votre commande.",
+                returnHomeTitle: "Retour à la page d'accueil :",
+                returnHomeText: "Cliquez sur le logo de Montreal Grocery Express pour revenir à la page d'accueil.",
+                deliveryScheduleTitle: "Calendrier de livraison",
+                deliveryScheduleText: "Nous livrons vos courses toutes les deux semaines, vous assurant d'avoir tout ce dont vous avez besoin sans le tracas des courses fréquentes. Notre service est conçu pour la commodité et la fiabilité, apportant l'épicerie directement à votre porte toutes les deux semaines. Vous pouvez voir la date de livraison dans votre panier pour référence.",
+                pricingTitle: "Tarification",
+                pricingText: "Nos frais de service sont de 15% du montant total de votre commande, ce qui vous assure le meilleur rapport qualité-prix tout en bénéficiant de notre service de livraison fiable. Ces frais couvrent la commodité de la livraison directe de vos courses à votre porte toutes les deux semaines.",
+                whyChooseUsTitle: "Pourquoi nous choisir ?",
+                varietyTitle: "Variété :",
+                varietyText: "Accédez à une large sélection de magasins et de produits.",
+                convenienceTitle: "Commodité :",
+                convenienceText: "Livraison fiable à votre porte toutes les deux semaines.",
+                customerServiceTitle: "Service à la clientèle :",
+                customerServiceText: "Support amical pour vous aider avec vos questions.",
+                greatPricesTitle: "Excellents prix :",
+                greatPricesText: "Des prix compétitifs pour vous assurer d'obtenir la meilleure valeur.",
+                contactUsTitle: "Contactez-nous",
+                contactUsText: "Si vous avez des questions ou des demandes, n'hésitez pas à nous contacter :",
+                email: "Email : info@montrealgroceryexpress.ca",
+                wechatTitle: "WeChat :",
+            },
+            zh: {
+                aboutTitle: "关于",
+                howItWorksTitle: "工作原理",
+                howItWorksText: "Montreal Grocery Express 是如何工作的：",
+                selectItemTitle: "选择您的商品：",
+                selectItemText: "导航到商店页面并写下您想要订购的商品。",
+                addToCartTitle: "加入购物车：",
+                addToCartText: "一旦选择了商品，将其添加到购物车。",
+                accessFlyerTitle: "查看传单：",
+                accessFlyerText: "点击商店标志查看其传单以获取更多详情。",
+                reviewOrderTitle: "查看订单：",
+                reviewOrderText: "点击您的购物车，仔细检查您的商品。",
+                placeOrderTitle: "下订单：",
+                placeOrderText: "点击提交按钮完成您的订单。",
+                returnHomeTitle: "返回主页：",
+                returnHomeText: "点击 Montreal Grocery Express 标志返回主页。",
+                deliveryScheduleTitle: "配送时间表",
+                deliveryScheduleText: "我们每两周配送一次您的食品，确保您无需频繁购物即可拥有所需的一切。我们的服务旨在提供便利和可靠性，每两周将食品直接送到您的门口。您可以在购物车中查看配送日期以便参考。",
+                pricingTitle: "定价",
+                pricingText: "我们的服务费用为您总订单的 15%，确保您在享受我们可靠的配送服务的同时获得最佳价值。此费用涵盖每两周直接送货到您门口的便利性。",
+                whyChooseUsTitle: "为什么选择我们？",
+                varietyTitle: "种类：",
+                varietyText: "可以访问各种商店和产品。",
+                convenienceTitle: "便利：",
+                convenienceText: "每两周将商品准时送到您家门口。",
+                customerServiceTitle: "客户服务：",
+                customerServiceText: "提供友好的支持，解答您的问题。",
+                greatPricesTitle: "实惠价格：",
+                greatPricesText: "有竞争力的价格确保您获得最佳价值。",
+                contactUsTitle: "联系我们",
+                contactUsText: "如有任何问题或咨询，请随时与我们联系：",
+                email: "电子邮件：info@montrealgroceryexpress.ca",
+                wechatTitle: "WeChat：",
+            }
+        };
+
+        function switchLanguage(language) {
+            const translation = translations[language];
+
+            // Update all text elements based on the selected language
+            document.getElementById('aboutTitle').innerText = translation.aboutTitle;
+            document.getElementById('howItWorksTitle').innerText = translation.howItWorksTitle;
+            document.getElementById('howItWorksText').innerText = translation.howItWorksText;
+            document.getElementById('selectItemTitle').innerText = translation.selectItemTitle;
+            document.getElementById('selectItemText').innerText = translation.selectItemText;
+            document.getElementById('addToCartTitle').innerText = translation.addToCartTitle;
+            document.getElementById('addToCartText').innerText = translation.addToCartText;
+            document.getElementById('accessFlyerTitle').innerText = translation.accessFlyerTitle;
+            document.getElementById('accessFlyerText').innerText = translation.accessFlyerText;
+            document.getElementById('reviewOrderTitle').innerText = translation.reviewOrderTitle;
+            document.getElementById('reviewOrderText').innerText = translation.reviewOrderText;
+            document.getElementById('placeOrderTitle').innerText = translation.placeOrderTitle;
+            document.getElementById('placeOrderText').innerText = translation.placeOrderText;
+            document.getElementById('returnHomeTitle').innerText = translation.returnHomeTitle;
+            document.getElementById('returnHomeText').innerText = translation.returnHomeText;
+            document.getElementById('deliveryScheduleTitle').innerText = translation.deliveryScheduleTitle;
+            document.getElementById('deliveryScheduleText').innerText = translation.deliveryScheduleText;
+            document.getElementById('pricingTitle').innerText = translation.pricingTitle;
+            document.getElementById('pricingText').innerText = translation.pricingText;
+            document.getElementById('whyChooseUsTitle').innerText = translation.whyChooseUsTitle;
+            document.getElementById('varietyTitle').innerText = translation.varietyTitle;
+            document.getElementById('varietyText').innerText = translation.varietyText;
+            document.getElementById('convenienceTitle').innerText = translation.convenienceTitle;
+            document.getElementById('convenienceText').innerText = translation.convenienceText;
+            document.getElementById('customerServiceTitle').innerText = translation.customerServiceTitle;
+            document.getElementById('customerServiceText').innerText = translation.customerServiceText;
+            document.getElementById('greatPricesTitle').innerText = translation.greatPricesTitle;
+            document.getElementById('greatPricesText').innerText = translation.greatPricesText;
+            document.getElementById('contactUsTitle').innerText = translation.contactUsTitle;
+            document.getElementById('contactUsText').innerText = translation.contactUsText;
+            document.getElementById('email').innerText = translation.email;
+            document.getElementById('wechatTitle').innerText = translation.wechatTitle;
+        }
+    </script>
+</body>
+</html>
