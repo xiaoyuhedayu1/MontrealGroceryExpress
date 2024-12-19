@@ -34,7 +34,7 @@
         #languageSelector {
             position: absolute;
             top: 15px;
-            right: 100px; /* Adjusted to avoid overlap with cart */
+            right: 15px; /* Adjusted for better placement */
             background-color: #fff;
             border: 1px solid #ddd;
             padding: 5px;
@@ -58,15 +58,17 @@
         /* Section for restaurant and grocery stores */
         .section-row {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
         }
 
         /* Each store or restaurant item */
         .store-item {
-            width: 200px;
-            height: 250px;
-            margin-bottom: 20px;
+            width: 100%;
+            max-width: 250px;  /* Restricting max width for better layout */
+            height: auto;
             background-color: #ffffff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
@@ -135,6 +137,45 @@
             text-align: center;
             line-height: 20px;
         }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            /* Adjusting layout for smaller screens */
+            #logo {
+                height: 60px;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            /* Reducing the width of store items on small screens */
+            .store-item {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            /* Stacking sections vertically */
+            .section-row {
+                justify-content: center;
+            }
+
+            #languageSelector {
+                right: 15px;
+                top: 70px; /* Moving down for better visibility */
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Additional adjustments for very small screens */
+            header h1 {
+                font-size: 20px;
+            }
+
+            .store-item {
+                max-width: 90%; /* More flexible width on very small screens */
+            }
+        }
     </style>
 </head>
 <body>
@@ -158,7 +199,6 @@
             <div class="store-item">
                 <img src="kimphat_logo.png" alt="Kimphat">
                 <h3>Kimphat</h3>
-                <!-- "Shop Now" button directs to kimphat.html -->
                 <a href="kimphat.html" class="shop-now-button">Shop Now</a>
             </div>
 
@@ -166,7 +206,6 @@
             <div class="store-item">
                 <img src="ct_logo.png" alt="C&T">
                 <h3>C&T</h3>
-                <!-- "Shop Now" button directs to ct.html -->
                 <a href="ct.html" class="shop-now-button">Shop Now</a>
             </div>
 
@@ -174,7 +213,6 @@
             <div class="store-item">
                 <img src="tt_logo.png" alt="T&T">
                 <h3>T&T</h3>
-                <!-- "Shop Now" button directs to tt.html -->
                 <a href="tt.html" class="shop-now-button">Shop Now</a>
             </div>
         </div>
