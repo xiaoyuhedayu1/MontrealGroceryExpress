@@ -30,21 +30,40 @@
             z-index: 999;
         }
 
-        /* Language Dropdown Container */
-        #languageSelectorContainer {
-            text-align: center; /* Center the selector */
-            margin-top: 10px;   /* Space between the welcome message and selector */
+        /* Arrow pointing towards the logo (in the opposite direction) */
+        #arrow {
+            position: absolute;
+            top: 45px; /* Adjust the position of the arrow */
+            left: 200px; /* Position it to the left of the logo */
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 15px solid red; /* Red arrow */
+            transform: rotate(90deg); /* Rotate the arrow 90 degrees */
+            z-index: 998;
+
+            animation: bounce 1s infinite;
         }
 
-        /* Language Dropdown */
-        #languageSelector {
-            background-color: #fff;
-            border: 1px solid #ddd;
+        /* Language Dropdown Container */
+        #languageSwitcher {
+            position: relative;
+            margin-top: 10px; /* Space between the welcome message and selector */
+        }
+
+        #languageSwitcher select {
+            background-color: #4CAF50; /* Green color */
+            color: white;
             padding: 10px;
-            border-radius: 5px;
+            border: none;
             cursor: pointer;
             font-size: 16px;
             width: 150px; /* Optional: control width */
+        }
+
+        #languageSwitcher select:hover {
+            background-color: #45a049; /* Slightly darker green when hovering */
         }
 
         /* Main sections */
@@ -140,15 +159,39 @@
             text-align: center;
             line-height: 20px;
         }
+       
+        @keyframes bounce {
+            0% {
+                transform: translateX(0) rotate(90deg); /* Starting position */
+            }
+            30% {
+                transform: translateX(-10px) rotate(90deg); /* Move up */
+            }
+            50% {
+                transform: translateX(0) rotate(90deg); /* Back to the original position */
+            }
+            70% {
+                transform: translateX(-5px) rotate(90deg); /* Slightly move up */
+            }
+            100% {
+                transform: translateX(0) rotate(90deg); /* Final position */
+            }
+        }
+
     </style>
 </head>
 <body>
     <header>
         <!-- Logo -->
-        <img id="logo" src="logo.png" alt="Logo">
+        <a href="about.html"> <!-- Replace with the desired URL -->
+            <img id="logo" src="logo.png" alt="Logo">
+        </a>
+        <!-- Arrow pointing towards the logo (red and up) -->
+        <div id="arrow"></div>
+
         <h1 id="welcomeMessage">Welcome to Our Store</h1>
         <!-- Language Dropdown below the welcome message -->
-        <div id="languageSelectorContainer">
+        <div id="languageSwitcher">
             <select id="languageSelector" onchange="changeLanguage()">
                 <option value="en">English</option>
                 <option value="fr">Français</option>
