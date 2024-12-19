@@ -167,18 +167,113 @@
     <div class="contact-form">
         <form action="https://api.staticforms.xyz/submit" method="post" id="contactForm">
             <input type="hidden" name="accessKey" value="d276f4f2-11bb-4f04-a9f7-3718a5652711">
-            <input type="text" name="name" placeholder="Your Name">
-            <input type="text" name="email" placeholder="Your Email">
-            <input type="text" name="phone" placeholder="Your Phone">
-            <input type="text" name="address" placeholder="Your Home Address">
+            <input type="text" name="name" id="name" placeholder="Your Name">
+            <input type="text" name="email" id="email" placeholder="Your Email">
+            <input type="text" name="phone" id="phone" placeholder="Your Phone">
+            <input type="text" name="address" id="address" placeholder="Your Home Address">
             <textarea name="message" id="message" placeholder="Your message (automatically filled with cart details)" style="visibility: hidden;"></textarea>
             <input type="hidden" name="replyTo" value="@">
             <input type="hidden" name="redirectTo" value="https://montrealgroceryexpress.ca/order_confirmation.html">
-            <input type="submit" value="Submit" onclick="prepareMessage(event)" />
+            <input type="submit" value="Submit" id="submitBtn" onclick="prepareMessage(event)" />
         </form>
     </div>
 
     <script>
+        // Language translations
+        const languageTexts = {
+    en: {
+        title: "Your Cart",
+        cartTitle: "Shopping Cart",
+        yourCartTitle: "Your Shopping Cart",
+        itemNameTitle: "Item Name",
+        storeTitle: "Store",
+        quantityTitle: "Quantity",
+        removeTitle: "Remove",
+        clearCart: "Clear Cart",
+        nextDelivery: "Next Delivery:",
+        orderSubmitted: "Order Submitted!",
+        fillAllFields: "Please fill out all customer information fields!",
+        yourMessage: "Your message (automatically filled with cart details)",
+        namePlaceholder: "Your Name",
+        emailPlaceholder: "Your Email",
+        phonePlaceholder: "Your Phone",
+        addressPlaceholder: "Your Home Address",
+        submitBtn: "Submit", // Text for the submit button in English
+        confirmClearCart: "Are you sure you want to clear all items from the cart?", // Confirmation message in English
+        cartEmpty: "Your cart is empty", // New message for "Your cart is empty"
+        confirmOrderSubmission: "Are you sure you want to submit your order?" // Confirmation message for order submission
+    },
+    fr: {
+        title: "Votre Panier",
+        cartTitle: "Panier d'achat",
+        yourCartTitle: "Votre Panier",
+        itemNameTitle: "Nom de l'article",
+        storeTitle: "Magasin",
+        quantityTitle: "Quantité",
+        removeTitle: "Supprimer",
+        clearCart: "Vider le Panier",
+        nextDelivery: "Prochaine Livraison:",
+        orderSubmitted: "Commande soumise!",
+        fillAllFields: "Veuillez remplir tous les champs d'informations client!",
+        yourMessage: "Votre message (automatiquement rempli avec les détails du panier)",
+        namePlaceholder: "Votre Nom",
+        emailPlaceholder: "Votre Email",
+        phonePlaceholder: "Votre Téléphone",
+        addressPlaceholder: "Votre Adresse",
+        submitBtn: "Soumettre", // Text for the submit button in French
+        confirmClearCart: "Êtes-vous sûr de vouloir vider tous les articles du panier?", // Confirmation message in French
+        cartEmpty: "Votre panier est vide", // New message for "Your cart is empty"
+        confirmOrderSubmission: "Êtes-vous sûr de vouloir soumettre votre commande?" // Confirmation message for order submission
+    },
+    zh: {
+        title: "购物车",
+        cartTitle: "购物车",
+        yourCartTitle: "您的购物车",
+        itemNameTitle: "商品名称",
+        storeTitle: "商店",
+        quantityTitle: "数量",
+        removeTitle: "删除",
+        clearCart: "清空购物车",
+        nextDelivery: "下次配送:",
+        orderSubmitted: "订单已提交！",
+        fillAllFields: "请填写所有客户信息字段！",
+        yourMessage: "您的留言（自动填写购物车的详细信息）",
+        namePlaceholder: "您的姓名",
+        emailPlaceholder: "您的邮箱",
+        phonePlaceholder: "您的电话",
+        addressPlaceholder: "您的家庭住址",
+        submitBtn: "提交", // Text for the submit button in Chinese
+        confirmClearCart: "您确定要清空购物车中的所有商品吗？", // Confirmation message in Chinese
+        cartEmpty: "您的购物车是空的", // New message for "Your cart is empty"
+        confirmOrderSubmission: "您确定要提交您的订单吗？" // Confirmation message for order submission
+    }
+};
+        // Set language based on dropdown selection
+        function changeLanguage() {
+            const language = document.getElementById('languageDropdown').value;
+            document.getElementById('cartTitle').textContent = languageTexts[language].cartTitle;
+            document.getElementById('yourCartTitle').textContent = languageTexts[language].yourCartTitle;
+            document.getElementById('itemNameTitle').textContent = languageTexts[language].itemNameTitle;
+            document.getElementById('storeTitle').textContent = languageTexts[language].storeTitle;
+            document.getElementById('quantityTitle').textContent = languageTexts[language].quantityTitle;
+            document.getElementById('removeTitle').textContent = languageTexts[language].removeTitle;
+            document.querySelector('.clear-cart-btn').textContent = languageTexts[language].clearCart;
+            document.querySelector('.next-delivery strong').textContent = languageTexts[language].nextDelivery;
+            document.querySelector('[name="message"]').placeholder = languageTexts[language].yourMessage;
+
+            // Change placeholder text for form inputs
+            document.getElementById('name').placeholder = languageTexts[language].namePlaceholder;
+            document.getElementById('email').placeholder = languageTexts[language].emailPlaceholder;
+            document.getElementById('phone').placeholder = languageTexts[language].phonePlaceholder;
+            document.getElementById('address').placeholder = languageTexts[language].addressPlaceholder;
+
+            // Change submit button text
+            document.getElementById('submitBtn').value = languageTexts[language].submitBtn;
+
+            // Update the "Your cart is empty" message when the cart is empty
+            updateCart();
+        }
+
         // Calculate the next Sunday date
         function getNextSunday() {
             const today = new Date();
@@ -195,68 +290,31 @@
         document.getElementById('nextSunday').textContent = getNextSunday();
 
         // Example for cart management (no changes here)
-        const languageTexts = {
-            en: {
-                title: "Your Cart",
-                cartTitle: "Shopping Cart",
-                yourCartTitle: "Your Shopping Cart",
-                itemNameTitle: "Item Name",
-                storeTitle: "Store",
-                quantityTitle: "Quantity",
-                removeTitle: "Remove",
-                orderSubmitted: "Order Submitted!",
-                fillAllFields: "Please fill out all customer information fields!"
-            },
-            fr: {
-                title: "Votre Panier",
-                cartTitle: "Panier d'achat",
-                yourCartTitle: "Votre Panier",
-                itemNameTitle: "Nom de l'article",
-                storeTitle: "Magasin",
-                quantityTitle: "Quantité",
-                removeTitle: "Supprimer",
-                orderSubmitted: "Commande soumise!",
-                fillAllFields: "Veuillez remplir tous les champs d'informations client!"
-            },
-            zh: {
-                title: "购物车",
-                cartTitle: "购物车",
-                yourCartTitle: "您的购物车",
-                itemNameTitle: "商品名称",
-                storeTitle: "商店",
-                quantityTitle: "数量",
-                removeTitle: "删除",
-                orderSubmitted: "订单已提交！",
-                fillAllFields: "请填写所有客户信息字段！"
-            }
-        };
-
-        // Retrieve cart from localStorage
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
         // Update the cart display
-        function updateCart() {
-            const cartItemsList = document.getElementById('cartItems');
-            cartItemsList.innerHTML = ''; // Clear current cart items
+       function updateCart() {
+    const cartItemsList = document.getElementById('cartItems');
+    cartItemsList.innerHTML = ''; // Clear current cart items
 
-            if (cart.length === 0) {
-                const emptyMessage = document.createElement('tr');
-                emptyMessage.innerHTML = '<td colspan="4" style="text-align: center; padding: 20px;">Your cart is empty</td>';
-                cartItemsList.appendChild(emptyMessage);
-            } else {
-                cart.forEach((item, index) => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = ` 
-                        <td>${item.name}</td>
-                        <td>${item.storeName}</td>
-                        <td><input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${index}, this.value)" /></td>
-                        <td><button class="remove-btn" onclick="removeFromCart(${index})">Remove</button></td>
-                    `;
-                    cartItemsList.appendChild(row);
-                });
-            }
-        }
-
+    if (cart.length === 0) {
+        const emptyMessage = document.createElement('tr');
+        const language = document.getElementById('languageDropdown').value;
+        emptyMessage.innerHTML = `<td colspan="4" style="text-align: center; padding: 20px;">${languageTexts[language].cartEmpty}</td>`;
+        cartItemsList.appendChild(emptyMessage);
+    } else {
+        cart.forEach((item, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = ` 
+                <td>${item.name}</td>
+                <td>${item.storeName}</td>
+                <td><input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${index}, this.value)" /></td>
+                <td><button class="remove-btn" onclick="removeFromCart(${index})">Remove</button></td>
+            `;
+            cartItemsList.appendChild(row);
+        });
+    }
+}
         // Update quantity
         function updateQuantity(index, newQuantity) {
             cart[index].quantity = parseInt(newQuantity);
@@ -272,7 +330,8 @@
 
         // Clear all items from cart
         function confirmClearCart() {
-            const confirmation = window.confirm("Are you sure you want to clear all items from the cart?");
+            const language = document.getElementById('languageDropdown').value;
+            const confirmation = window.confirm(languageTexts[language].confirmClearCart);
             if (confirmation) {
                 cart = [];
                 localStorage.setItem('cart', JSON.stringify(cart));
@@ -282,44 +341,53 @@
 
         // Prepare message content and ensure it's filled
         function prepareMessage(event) {
-            const name = document.querySelector('[name="name"]').value;
-            const email = document.querySelector('[name="email"]').value;
-            const address = document.querySelector('[name="address"]').value;
+    const name = document.querySelector('[name="name"]').value;
+    const email = document.querySelector('[name="email"]').value;
+    const address = document.querySelector('[name="address"]').value;
 
-            // Check if the cart is empty
-            if (cart.length === 0) {
-                alert(languageTexts[getSelectedLanguage()].fillAllFields + " Your cart is empty!");
-                event.preventDefault(); // Prevent submission if cart is empty
-                return;
-            }
+    // Check if the cart is empty
+    if (cart.length === 0) {
+        alert(languageTexts[getSelectedLanguage()].fillAllFields + " Your cart is empty!");
+        event.preventDefault(); // Prevent submission if cart is empty
+        return;
+    }
 
-            if (name && email && address) {
-                let messageContent = `Home Address: ${address};\n\nItems in cart:\n\n`;
-                cart.forEach(item => {
-                    messageContent += `(${item.name}; ${item.quantity}; ${item.storeName})\n`;
-                });
+    if (name && email && address) {
+        let messageContent = `Home Address: ${address};\n\nItems in cart:\n\n`;
+        cart.forEach(item => {
+            messageContent += `(${item.name}; ${item.quantity}; ${item.storeName})\n`;
+        });
 
-                // Confirm before submitting the form
-                const confirmation = window.confirm("Are you sure you want to submit your order?");
-                if (confirmation) {
-                    // Populate the hidden message field with the content
-                    document.getElementById('message').value = messageContent;
-                } else {
-                    event.preventDefault(); // Prevent form submission if user cancels
-                }
-            } else {
-                alert(languageTexts[getSelectedLanguage()].fillAllFields);
-                event.preventDefault(); // Prevent submission if fields are missing
-            }
+        // Get the selected language
+        const language = getSelectedLanguage();
+        
+        // Use the translated confirmation message
+        const confirmationMessage = languageTexts[language].confirmOrderSubmission;
+        const confirmation = window.confirm(confirmationMessage);
+
+        if (confirmation) {
+            // Populate the hidden message field with the content
+            document.getElementById('message').value = messageContent;
+        } else {
+            event.preventDefault(); // Prevent form submission if user cancels
         }
+    } else {
+        alert(languageTexts[getSelectedLanguage()].fillAllFields);
+        event.preventDefault(); // Prevent submission if fields are missing
+    }
+}
+
 
         // Function to get selected language
         function getSelectedLanguage() {
             return document.getElementById('languageDropdown').value;
         }
 
-        // Initial cart update
-        updateCart();
+        // Initialize the cart and language selection
+        window.onload = function () {
+            updateCart(); // Display cart content on page load
+            changeLanguage(); // Initialize language
+        }
     </script>
 </body>
 </html>
