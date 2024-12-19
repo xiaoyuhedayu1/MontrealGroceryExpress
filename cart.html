@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">Cart</title>
     <style>
+        /* Basic Styling */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -83,6 +84,18 @@
             background-color: #ff6666;
         }
 
+        .next-delivery {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
         .contact-form {
             max-width: 600px;
             margin: 20px auto;
@@ -116,7 +129,7 @@
 </head>
 <body>
     <header>
-        <a href="frontpage.html">
+        <a href="index.html">
             <img src="logo.png" id="logo" alt="Kimphat Store">
         </a>
         <select id="languageDropdown" onchange="changeLanguage()">
@@ -145,23 +158,43 @@
         <button class="clear-cart-btn" onclick="confirmClearCart()">Clear Cart</button>
     </div>
 
+    <!-- Next Delivery Section -->
+    <div class="next-delivery">
+        <p><strong>Next Delivery: </strong><span id="nextSunday"></span></p>
+    </div>
+
     <!-- Contact Form -->
     <div class="contact-form">
-        <form action="https://api.staticforms.xyz/submit" method="post" id="contactForm" onsubmit="return confirmSubmit()">
-            <input type="hidden" name="accessKey" value="d276f4f2-11bb-4f04-a9f7-3718a5652711"> <!-- Required -->
-            <input type="text" name="name" placeholder="Your Name"> <!-- Optional -->
-            <input type="text" name="email" placeholder="Your Email"> <!-- Optional -->
-            <input type="text" name="phone" placeholder="Your Phone"> <!-- Optional -->
-            <input type="text" name="address" placeholder="Your Home Address"> <!-- New Address Field -->
-            <textarea name="message" id="message" placeholder="Your message (automatically filled with cart details)" style="display: none;"></textarea> <!-- Optional -->
-            <input type="hidden" name="replyTo" value="@"> <!-- Optional -->
-            <input type="hidden" name="redirectTo" value="https://example.com/contact/success"> <!-- Optional -->
-            <input type="submit" value="Submit" />
+        <form action="https://api.staticforms.xyz/submit" method="post" id="contactForm">
+            <input type="hidden" name="accessKey" value="d276f4f2-11bb-4f04-a9f7-3718a5652711">
+            <input type="text" name="name" placeholder="Your Name">
+            <input type="text" name="email" placeholder="Your Email">
+            <input type="text" name="phone" placeholder="Your Phone">
+            <input type="text" name="address" placeholder="Your Home Address">
+            <textarea name="message" id="message" placeholder="Your message (automatically filled with cart details)" style="visibility: hidden;"></textarea>
+            <input type="hidden" name="replyTo" value="@">
+            <input type="hidden" name="redirectTo" value="https://montrealgroceryexpress.ca/order_confirmation.html">
+            <input type="submit" value="Submit" onclick="prepareMessage(event)" />
         </form>
     </div>
 
     <script>
-        // Language text mapping
+        // Calculate the next Sunday date
+        function getNextSunday() {
+            const today = new Date();
+            const dayOfWeek = today.getDay();
+            const daysUntilSunday = (7 - dayOfWeek) % 7; // Calculate the days until the next Sunday
+            const nextSunday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + daysUntilSunday);
+            
+            // Format the date to a more readable format (e.g., "December 22, 2024")
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return nextSunday.toLocaleDateString('en-US', options);
+        }
+
+        // Display next Sunday in the 'Next Delivery' section
+        document.getElementById('nextSunday').textContent = getNextSunday();
+
+        // Example for cart management (no changes here)
         const languageTexts = {
             en: {
                 title: "Your Cart",
@@ -198,10 +231,10 @@
             }
         };
 
-        // Retrieve the cart from localStorage
+        // Retrieve cart from localStorage
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-        // Function to update the cart display
+        // Update the cart display
         function updateCart() {
             const cartItemsList = document.getElementById('cartItems');
             cartItemsList.innerHTML = ''; // Clear current cart items
@@ -211,9 +244,6 @@
                 emptyMessage.innerHTML = '<td colspan="4" style="text-align: center; padding: 20px;">Your cart is empty</td>';
                 cartItemsList.appendChild(emptyMessage);
             } else {
-                // Sort the cart items by store name
-                cart.sort((a, b) => a.storeName.localeCompare(b.storeName));
-
                 cart.forEach((item, index) => {
                     const row = document.createElement('tr');
                     row.innerHTML = ` 
@@ -227,69 +257,68 @@
             }
         }
 
-        // Function to update quantity of an item in the cart
+        // Update quantity
         function updateQuantity(index, newQuantity) {
             cart[index].quantity = parseInt(newQuantity);
             localStorage.setItem('cart', JSON.stringify(cart)); // Update localStorage
         }
 
-        // Function to remove an item from the cart
+        // Remove item from cart
         function removeFromCart(index) {
-            cart.splice(index, 1); // Remove item from cart
+            cart.splice(index, 1);
             localStorage.setItem('cart', JSON.stringify(cart)); // Update localStorage
-            updateCart(); // Update the cart display
+            updateCart();
         }
 
-        // Function to clear all items from the cart with confirmation
+        // Clear all items from cart
         function confirmClearCart() {
             const confirmation = window.confirm("Are you sure you want to clear all items from the cart?");
             if (confirmation) {
-                clearCart(); // Clear cart if confirmed
+                cart = [];
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCart();
             }
         }
 
-        // Function to actually clear the cart
-        function clearCart() {
-            cart = []; // Clear the cart array
-            localStorage.setItem('cart', JSON.stringify(cart)); // Clear localStorage
-            updateCart(); // Update the UI to reflect the empty cart
-        }
-
-        // Function to prepare the message with cart items and address for submission
-        function prepareMessage() {
+        // Prepare message content and ensure it's filled
+        function prepareMessage(event) {
             const name = document.querySelector('[name="name"]').value;
             const email = document.querySelector('[name="email"]').value;
             const address = document.querySelector('[name="address"]').value;
 
+            // Check if the cart is empty
+            if (cart.length === 0) {
+                alert(languageTexts[getSelectedLanguage()].fillAllFields + " Your cart is empty!");
+                event.preventDefault(); // Prevent submission if cart is empty
+                return;
+            }
+
             if (name && email && address) {
-                let messageContent = `Home Address: ${address}\n\n`; // Add the address at the start
-                messageContent += 'Items in cart:\n\n'; // Start the message with cart items
+                let messageContent = `Home Address: ${address};\n\nItems in cart:\n\n`;
                 cart.forEach(item => {
-                    messageContent += `(${item.name}; ${item.quantity}, ${item.storeName})\n`;
+                    messageContent += `(${item.name}; ${item.quantity}; ${item.storeName})\n`;
                 });
 
-                document.getElementById('message').value = messageContent; // Insert address and cart items into the message
+                // Confirm before submitting the form
+                const confirmation = window.confirm("Are you sure you want to submit your order?");
+                if (confirmation) {
+                    // Populate the hidden message field with the content
+                    document.getElementById('message').value = messageContent;
+                } else {
+                    event.preventDefault(); // Prevent form submission if user cancels
+                }
             } else {
                 alert(languageTexts[getSelectedLanguage()].fillAllFields);
+                event.preventDefault(); // Prevent submission if fields are missing
             }
         }
 
-        // Function to get the selected language from the dropdown
+        // Function to get selected language
         function getSelectedLanguage() {
             return document.getElementById('languageDropdown').value;
         }
 
-        // Confirm before submitting the contact form
-        function confirmSubmit() {
-            const confirmation = window.confirm("Are you sure you want to submit the form?");
-            if (confirmation) {
-                return true; // Proceed with form submission
-            } else {
-                return false; // Prevent form submission
-            }
-        }
-
-        // Update the cart display initially
+        // Initial cart update
         updateCart();
     </script>
 </body>
