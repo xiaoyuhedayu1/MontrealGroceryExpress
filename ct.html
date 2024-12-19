@@ -18,32 +18,49 @@
         header {
             background-color: #4CAF50;
             color: white;
-            padding: 13px;
+            padding: 30px 0; /* Adjusted for header size */
             text-align: center;
+            display: flex;
+            justify-content: center; /* Center the content horizontally */
+            align-items: center; /* Align the content vertically */
             position: relative;
+            flex-direction: column; /* Stack items vertically */
         }
 
         /* Company Logo */
         #companyLogo {
             position: absolute;
-            top: 16px; /* Adjusted to match the increased padding */
+            top: 16px;
             left: 15px;
-            width: 200px;
+            width: 250px; /* Increased size */
             height: auto;
             z-index: 999;
         }
 
-        /* Language Selector */
-        #languageSelector {
-            position: absolute;
-            top: 25px; /* Adjusted top positioning */
-            right: 100px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            padding: 8px;
-            border-radius: 5px;
+        /* Store Logo */
+        #storeLogo {
+            width: 250px; /* Increased size */
+            height: auto;
+            z-index: 999;
+        }
+
+        /* Language Selector Styling */
+        #languageSwitcher {
+            margin-top: 20px; /* Space between logo and language dropdown */
+        }
+
+        #languageSwitcher select {
+            background-color: #4CAF50; /* Green color */
+            color: white;
+            padding: 10px;
+            border: none;
             cursor: pointer;
-            font-size: 16px; /* Increased font size for better readability */
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        #languageSwitcher select:hover {
+            background-color: #45a049; /* Slightly darker green when hovering */
         }
 
         /* Form for Product Input */
@@ -113,15 +130,14 @@
 
         /* Permanent Mini Cart */
         #miniCart {
-            position: fixed;
-            top: 150px;
-            right: 20px;
+            margin-top: 20px;
             background-color: white;
             padding: 10px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
             width: 250px;
             z-index: 1000;
+            margin: 20px auto; /* Centered under the product form */
         }
 
         #miniCart ul {
@@ -167,58 +183,28 @@
             margin-top: 10px;
         }
 
-        /* Flyer Circle with Icon */
-        #flyerCircle {
-            position: fixed;
-            top: 20%;
-            left: 70px;
-            width: 120px;
-            height: 120px;
-            background-color: #f39c12; /* Orange color */
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 32px; /* Larger font size for the icon */
-            z-index: 999;
-        }
-
-        #flyerCircle a {
-            text-decoration: none;
-            color: white;
-        }
-
-        /* Additional styling for the flyer icon */
-        #flyerCircle i {
-            font-size: 48px; /* Flyer icon size */
-        }
     </style>
 </head>
 <body>
     <header>
-        <!-- CT Store Logo Image -->
-        <img src="ct_logo.png" alt="CT Store Logo" style="max-height: 80px;">
-        
+        <!-- C&T Store Logo Image (opens in a new tab) -->
+        <a href="https://www.marchect.ca/" id="storeLogo" target="_blank">
+            <img src="ct_logo.png" alt="C&T Store Logo" style="max-height: 80px;">
+        </a>
         <!-- Company Logo on Top Left -->
         <a href="index.html" id="companyLogo">
-            <img src="logo.png" alt="CT Store Logo" style="max-height: 80px;">
+            <img src="logo.png" alt="Company Logo" style="max-height: 80px;">
         </a>
 
         <!-- Language Selector -->
-        <select id="languageSelector" onchange="changeLanguage(event)">
-            <option value="en">English</option>
-            <option value="fr">French</option>
-            <option value="zh">Chinese</option>
-        </select>
+        <div id="languageSwitcher">
+            <select id="languageSelector" onchange="changeLanguage(event)">
+                <option value="en">English</option>
+                <option value="fr">French</option>
+                <option value="zh">Chinese</option>
+            </select>
+        </div>
     </header>
-
-    <!-- Flyer Circle (on the left) with Flyer Icon -->
-    <div id="flyerCircle">
-        <a href="https://www.marchect.ca/" target="_blank">
-            <i class="fas fa-file-alt"></i> <!-- Flyer icon from Font Awesome -->
-        </a>
-    </div>
 
     <!-- Form to Add Product -->
     <div class="product-form">
@@ -230,16 +216,16 @@
         </div>
     </div>
 
-    <!-- Cart Icon (Navigates to Cart Page) -->
-    <div id="cartIcon">
-        <a href="cart.html" style="color: white; text-decoration: none;">🛒</a>
-        <span id="cartCount">0</span>
-    </div>
-
     <!-- Permanent Mini Cart -->
     <div id="miniCart">
         <h3 id="miniCartTitle">Mini Cart</h3>
         <ul id="miniCartItems"></ul>
+    </div>
+
+    <!-- Cart Icon (Navigates to Cart Page) -->
+    <div id="cartIcon">
+        <a href="cart.html" style="color: white; text-decoration: none;">🛒</a>
+        <span id="cartCount">0</span>
     </div>
 
     <script>
@@ -267,9 +253,6 @@
                 productQuantityPlaceholder: "数量",
             }
         };
-
-        // Set default language to English
-        let currentLanguage = "en";
 
         // Function to change language
         function changeLanguage(event) {
